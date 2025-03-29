@@ -683,3 +683,4 @@ C:/Users/nguye/source/repos/Offset/obj/Debug/net9.0/compressed/kkpl9u2804-f9gifx
 /Applications/Development/Aplication/Offset/obj/Debug/net9.0/Offset.pdb
 /Applications/Development/Aplication/Offset/obj/Debug/net9.0/Offset.genruntimeconfig.cache
 /Applications/Development/Aplication/Offset/obj/Debug/net9.0/ref/Offset.dll
+/Applications/Development/Aplication/Offset/obj/Debug/net9.0/Offset.sourcelink.json
