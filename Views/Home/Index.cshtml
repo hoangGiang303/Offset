@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Project>
+
+
+<div class="container">
+    <div class="leftcontainer">
+        <input type="text" placeholder="Search" />
+        <button>Search</button>
+        <label>Filters</label>
+        <ul class="menu-filter">
+            <li>Continent</li>
+            <li>Country</li>
+        </ul>
+        <label>Sort by</label>
+        <div class="dropdown">
+            <button class="dropdown-btn" onclick="toggleDropdown()">
+                Mới nhất trước <i class="fa-solid fa-sort-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li onclick="selectOption(this)">Mới nhất trước</li>
+                <li>
+                    <a asp-controller="Home" asp-action="Index" asp-route-sort="Cũ nhất trước" onclick="selectOption(this)">Cũ nhất trước</a>
+                </li>
+                <li onclick="selectOption(this)">
+                    <a asp-controller="Home" asp-action="Index" asp-route-sort="Giá thấp đến cao" onclick="selectOption(this)">Giá thấp đến cao</a>
+                </li>
+                <li onclick="selectOption(this)">Giá cao đến thấp</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="project-list">
+        @foreach(var item in Model)
+        {
+            <a asp-action="ProjectDetail" asp-route-id="@item.Id" class="item-card">
+                <div class="item-info">
+                    <img src="@Url.Content("~/ProjectImages/33d08bdccec44784a72bba24085bf350~tplv-photomode-image.jpeg")" alt="Name" class="item-image" />
+                    <h3>@(item.ProjectName.Length > 50 ? item.ProjectName.Substring(0, 50) + "..." : item.ProjectName)</h3>
+                    <p class="item-price">USD @item.Price per tonne</p>
+                    <p class="item-quantity">@item.Availibility tonne(s)</p>
+                </div>
+                <p class="item-description">@(item.Description.Length > 200 ? item.Description.Substring(0,200) + "..." : item.Description)</p>
+            </a>
+        }
+    </div>
+</div>
+
+<div class="pagination">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
+<style>
+    .project-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .item-card {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #fff;
+        text-decoration: none;
+        color: #333;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .item-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+    .item-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .item-info {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0;
+    }
+
+    .item-price {
+        font-weight: bold;
+        color: #d9534f;
+    }
+
+    .item-quantity {
+        color: #5bc0de;
+    }
+
+    .item-description {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 8px;
+        list-style: none;
+    }
+
+    .pagination a,
+    .pagination span {
+        display: inline-block;
+        padding: 8px 12px;
+        border: 2px solid #007bff;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        min-width: 36px;
+        transition: all 0.3s ease;
+    }
+
+    .pagination a:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .pagination .active {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        pointer-events: none;
+    }
+</style>

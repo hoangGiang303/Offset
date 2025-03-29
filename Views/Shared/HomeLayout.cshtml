@@ -1,0 +1,67 @@
+﻿@{
+    bool isLoggedIn = string.IsNullOrEmpty(Context.Session.GetString("Email"))
+                              ? false
+                              : true;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Offset</title>
+    <link type="text/css" rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="~/js/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+
+        </div>
+        <div>
+            @if(!isLoggedIn)
+            {
+                <button onclick="window.location.href = '/Home/LogIn'">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    Log In
+                </button>
+                <button onclick="window.location.href = '/Home/Register'">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Register
+                </button>
+            }
+            else
+            {
+                string email = Context.Session.GetString("Email");
+                string username = email.Split('@')[0];
+                <div class="user-container">
+                    <button class="user-btn" onclick="openMenu()">
+                        <i class="fa-solid fa-user"></i>
+                        @(username.Length > 10 ? username.Substring(0,10)+"..." : username)
+                        <ul class="menu-user">
+                            <li>
+                                <a href="#">Sửa thông tin</a>
+                            </li>
+                            <li>
+                                <a href="#">Đơn hàng</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Home" asp-action="LogOut">Đăng xuất</a>
+                            </li>
+                        </ul>   
+                    </button>
+                </div>
+            }
+            <button class="cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
+        </div>
+    </header>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <footer class="border-top footer text-muted">
+    </footer>
+</body>
+</html>
